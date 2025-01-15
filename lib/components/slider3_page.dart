@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:hotel_booking_app/components/home_page.dart';
 
 
 class SliderPage3 extends StatefulWidget {
@@ -10,20 +11,17 @@ class SliderPage3 extends StatefulWidget {
 }
 
 class _SliderPage1State extends State<SliderPage3> {
-  int currentIndex = 0; // Tracks the current active page
+  int currentIndex = 2; // Tracks the current active page
 
   void goToNextPage() {
     setState(() {
-      if (currentIndex < 3) {
-        currentIndex++;
         if (currentIndex == 2) {
-          // Navigate to SliderPage2 when at the second dot
-          Navigator.push(
+          Navigator.pushNamed(
             context,
-            MaterialPageRoute(builder: (context) => SliderPage3()),
+            '/getstart'
+            // MaterialPageRoute(builder: (context) => HomePage()),
           );
         }
-      }
     });
   }
 
@@ -72,7 +70,7 @@ class _SliderPage1State extends State<SliderPage3> {
             margin: const EdgeInsets.symmetric(horizontal: 60.0),
             child: ElevatedButton(
               onPressed: () {
-                goToNextPage();
+                goToNextPage(); //function that make navigation of the pages 
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.grey.shade800,
@@ -125,7 +123,10 @@ class _SliderPage1State extends State<SliderPage3> {
                 ],
               ),
             ),
-          )
+          ),
+          Center(
+            child: Text("slider page 3" , style: TextStyle(fontSize: 30),),
+          ), 
         ],
       ),
     );
@@ -136,7 +137,7 @@ class _SliderPage1State extends State<SliderPage3> {
       duration: const Duration(milliseconds: 300),
       margin: const EdgeInsets.symmetric(horizontal: 5),
       height: 8,
-      width: isActive ? 20 : 8,
+      width: isActive ? 30 : 8,
       decoration: BoxDecoration(
         color: isActive ? Colors.grey.shade800 : Colors.grey.shade600,
         borderRadius: BorderRadius.circular(5),

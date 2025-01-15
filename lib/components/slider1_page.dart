@@ -19,9 +19,10 @@ class _SliderPage1State extends State<SliderPage1> {
         currentIndex++;
         if (currentIndex == 1) {
           // Navigate to SliderPage2 when at the second dot
-          Navigator.push(
+          Navigator.pushNamed(
             context,
-            MaterialPageRoute(builder: (context) => SliderPage2()),
+            '/slider2'
+            // MaterialPageRoute(builder: (context) => SliderPage2()),
           );
         }
       }
@@ -113,7 +114,6 @@ class _SliderPage1State extends State<SliderPage1> {
                 children: [
                   TextButton(
                     onPressed: () {
-                      // Add skip logic (e.g., navigate to main page)
                     },
                     child: Text(
                       'Skip',
@@ -126,6 +126,9 @@ class _SliderPage1State extends State<SliderPage1> {
                 ],
               ),
             ),
+          ),
+            Center(
+            child: Text("slider page 1" , style: TextStyle(fontSize: 30),),
           )
         ],
       ),
@@ -137,7 +140,7 @@ class _SliderPage1State extends State<SliderPage1> {
       duration: const Duration(milliseconds: 300),
       margin: const EdgeInsets.symmetric(horizontal: 5),
       height: 8,
-      width: isActive ? 20 : 8,
+      width: isActive ? 30 : 8,
       decoration: BoxDecoration(
         color: isActive ? Colors.grey.shade800 : Colors.grey.shade600,
         borderRadius: BorderRadius.circular(5),

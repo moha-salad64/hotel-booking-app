@@ -10,17 +10,18 @@ class SliderPage2 extends StatefulWidget {
 }
 
 class _SliderPage1State extends State<SliderPage2> {
-  int currentIndex = 0; // Tracks the current active page
+  int currentIndex = 1; // Tracks the current active page
 
   void goToNextPage() {
     setState(() {
       if (currentIndex < 3) {
         currentIndex++;
-        if (currentIndex == 3) {
-          // Navigate to SliderPage2 when at the second dot
-          Navigator.push(
+        if (currentIndex == 2) {
+          //Navigate to the sliderpage3 when the user click on the next button
+          Navigator.pushNamed(
             context,
-            MaterialPageRoute(builder: (context) => SliderPage3()),
+            '/slider3'
+            // MaterialPageRoute(builder: (context) => SliderPage3()),
           );
         }
       }
@@ -111,9 +112,7 @@ class _SliderPage1State extends State<SliderPage2> {
               child: Column(
                 children: [
                   TextButton(
-                    onPressed: () {
-                      // Add skip logic (e.g., navigate to main page)
-                    },
+                    onPressed: () {},
                     child: Text(
                       'Skip',
                       style: GoogleFonts.acme(
@@ -125,6 +124,10 @@ class _SliderPage1State extends State<SliderPage2> {
                 ],
               ),
             ),
+          ),
+
+           Center(
+            child: Text("slider page 2" , style: TextStyle(fontSize: 30),),
           )
         ],
       ),
@@ -136,7 +139,7 @@ class _SliderPage1State extends State<SliderPage2> {
       duration: const Duration(milliseconds: 300),
       margin: const EdgeInsets.symmetric(horizontal: 5),
       height: 8,
-      width: isActive ? 20 : 8,
+      width: isActive ? 30 : 8,
       decoration: BoxDecoration(
         color: isActive ? Colors.grey.shade800 : Colors.grey.shade600,
         borderRadius: BorderRadius.circular(5),
