@@ -1,29 +1,31 @@
 import 'package:flutter/material.dart';
-import 'package:hotel_booking_app/components/slider1_page.dart';
-import 'package:hotel_booking_app/components/slider2_page.dart';
-import 'package:hotel_booking_app/components/slider3_page.dart';
-import 'package:hotel_booking_app/start_page.dart';
+// import 'package:hotel_booking_app/components/create_user.dart';
+import 'components/Onboarding.dart';
+// import 'components/Onboarding.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
 
-void main() {
-  runApp(
-     MaterialApp(
+void main() async{
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform); 
+  return runApp(const MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
       debugShowCheckedModeBanner: false,
-      // home: SliderPage1(),
-      // home: SliderPage2(),
-
-
-       initialRoute: '/slider1',
-      routes: {
-        '/slider1': (context) => SliderPage1(),
-        '/slider2': (context) => SliderPage2(),
-        '/slider3': (context) => SliderPage3(),
-        '/getstart': (context) => StartPage(),
-      //   '/home': (context) => HomePage(),
-      },
-
-
-
-    )
-  );
+      title: 'Hotel Booking App',
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+        fontFamily: 'Playfair Display',
+      ),
+      home: const OnboardingScreen(),
+      // home: const CreateUser(),
+    );
+  }
 }
 
