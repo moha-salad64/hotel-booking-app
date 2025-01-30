@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 class HistoryTab extends StatelessWidget {
@@ -31,25 +32,37 @@ class HistoryTab extends StatelessWidget {
                 ),
               ),
               Expanded(
-                child: ListView(
-                  padding: const EdgeInsets.all(20),
-                  children: const [
-                    BookingCard(
-                      hotelName: 'Delace Hotel',
-                      roomType: 'Single or Double',
-                      checkIn: '01/01/2025',
-                      checkOut: '03/01/2025',
-                      price: 150,
-                    ),
-                    SizedBox(height: 20),
-                    BookingCard(
-                      hotelName: 'Jazeera Hotel',
-                      roomType: 'Single or Double',
-                      checkIn: '23/02/2025',
-                      checkOut: '23/02/2025',
-                      price: 80,
-                    ),
-                  ],
+                child: StreamBuilder<QuerySnapshot>(
+                  stream: FirebaseFirestore.instance
+                      .collection('bookings') // Your Firestore collection name
+                      .snapshots(),
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return Center(child: CircularProgressIndicator());
+                    }
+                    if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
+                      return Center(child: Text("No bookings found"));
+                    }
+
+                    final bookings = snapshot.data!.docs;
+
+                    return ListView.builder(
+                      padding: const EdgeInsets.all(20),
+                      itemCount: bookings.length,
+                      itemBuilder: (context, index) {
+                        final booking = bookings[index];
+                        final checkIn = booking['check_in'].toDate();
+                        final checkOut = booking['check_out'].toDate();
+                        final roomType = booking['room_type'];
+
+                        return BookingCard(
+                          roomType: roomType,
+                          checkIn: '${checkIn.day}/${checkIn.month}/${checkIn.year}',
+                          checkOut: '${checkOut.day}/${checkOut.month}/${checkOut.year}',
+                        );
+                      },
+                    );
+                  },
                 ),
               ),
             ],
@@ -61,27 +74,24 @@ class HistoryTab extends StatelessWidget {
 }
 
 class BookingCard extends StatelessWidget {
-  final String hotelName;
   final String roomType;
   final String checkIn;
   final String checkOut;
-  final int price;
 
   const BookingCard({
     super.key,
-    required this.hotelName,
     required this.roomType,
     required this.checkIn,
     required this.checkOut,
-    required this.price,
   });
 
   @override
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.all(20),
+      margin: const EdgeInsets.only(bottom: 15),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: Colors.amber.shade300,
         borderRadius: BorderRadius.circular(20),
         boxShadow: [
           BoxShadow(
@@ -94,40 +104,25 @@ class BookingCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            'Hotel Name: $hotelName',
-            style: const TextStyle(
-              fontSize: 18,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
           const SizedBox(height: 10),
           Text(
             'Room Type: $roomType',
             style: const TextStyle(fontSize: 16),
           ),
-          const SizedBox(height: 10),
+          const SizedBox(height: 20), 
           Text(
-            'Check in: $checkIn',
+            'Check-in: $checkIn',
             style: const TextStyle(fontSize: 16),
           ),
           const SizedBox(height: 10),
           Text(
-            'Check Out: $checkOut',
+            'Check-out: $checkOut',
             style: const TextStyle(fontSize: 16),
           ),
-          const SizedBox(height: 10),
+          const SizedBox(height: 20), 
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(
-                'Price: \$$price',
-                style: const TextStyle(
-                  fontSize: 16,
-                  color: Colors.blue,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
               Row(
                 children: [
                   ElevatedButton(
@@ -148,7 +143,7 @@ class BookingCard extends StatelessWidget {
                           color: Colors.white),
                     ),
                   ),
-                  const SizedBox(width: 10),
+                  const SizedBox(width: 10), // Add space between buttons
                   ElevatedButton(
                     onPressed: () {
                       // Add edit booking logic

@@ -173,7 +173,6 @@ class _BookingScreenState extends State<BookingScreen> {
                   ),
                 ),
               ),
-              const SizedBox(height: 30),
 
               // Room Type
               const Text(
@@ -204,6 +203,9 @@ class _BookingScreenState extends State<BookingScreen> {
                   ),
                 ],
               ),
+
+              // Add spacing between button and other widgets
+              const SizedBox(height: 20),
 
               // Save Button
               SizedBox(
