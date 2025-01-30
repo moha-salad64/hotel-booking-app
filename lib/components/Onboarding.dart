@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+// import 'package:hotel_booking_app/components/main_screen.dart';
 import 'create_user.dart';
 
 class OnboardingScreen extends StatefulWidget {

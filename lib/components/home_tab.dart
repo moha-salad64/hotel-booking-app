@@ -1,14 +1,73 @@
 import 'package:flutter/material.dart';
 
-class HomeTab extends StatelessWidget {
+class HomeTab extends StatefulWidget {
   const HomeTab({super.key});
+
+  @override
+  _HomeTabState createState() => _HomeTabState();
+}
+
+class _HomeTabState extends State<HomeTab> {
+  final TextEditingController _searchController = TextEditingController();
+  List<Map<String, dynamic>> hotels = [
+    {
+      'imageUrl': 'images/7.jpeg',
+      'name': 'Jazeera Palace Hotel',
+      'location': 'Airport Rd, Mogadishu, Somalia',
+      'rating': 4.5,
+      'price': 150,
+    },
+    {
+      'imageUrl': 'images/slider2.jpeg',
+      'name': 'Decale Hotel',
+      'location': 'Wadada Jazeera, Mogadishu, Somalia',
+      'rating': 4.0,
+      'price': 200,
+    },
+    {
+      'imageUrl': 'images/slider3.jpeg',
+      'name': 'Peace Hotel',
+      'location': 'Mogadishu, Somalia',
+      'rating': 4.2,
+      'price': 180,
+    },
+     {
+      'imageUrl': 'images/slider3.jpeg',
+      'name': 'Peace Hotel',
+      'location': 'Mogadishu, Somalia',
+      'rating': 4.2,
+      'price': 180,
+    },
+     {
+      'imageUrl': 'images/slider3.jpeg',
+      'name': 'Peace Hotel',
+      'location': 'Mogadishu, Somalia',
+      'rating': 4.2,
+      'price': 180,
+    },
+  ];
+
+  List<Map<String, dynamic>> filteredHotels = [];
+
+  @override
+  void initState() {
+    super.initState();
+    filteredHotels = hotels; // Marka hore dhammaan hotels-ka haka muuqdaan
+  }
+
+  void _searchHotels(String query) {
+    setState(() {
+      filteredHotels = hotels.where((hotel) {
+        return hotel['name'].toLowerCase().contains(query.toLowerCase());
+      }).toList();
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Column(
         children: [
-          // Header and Search Bar
           Padding(
             padding: const EdgeInsets.all(20.0),
             child: Column(
@@ -31,39 +90,38 @@ class HomeTab extends StatelessWidget {
                     color: Colors.grey[200],
                     borderRadius: BorderRadius.circular(25),
                   ),
-                  child: const TextField(
-                    decoration: InputDecoration(
+                  child: TextField(
+                    controller: _searchController,
+                    decoration: const InputDecoration(
                       hintText: 'Search Hotel',
                       prefixIcon: Icon(Icons.search),
                       border: InputBorder.none,
                     ),
+                    onChanged: _searchHotels,
                   ),
                 ),
               ],
             ),
           ),
-
-          // Hotel Listings
           Expanded(
-            child: ListView(
+            child: ListView.builder(
               padding: const EdgeInsets.symmetric(horizontal: 20),
-              children: const [
-                HotelCard(
-                  imageUrl: 'images/slider1.jpeg',
-                  name: 'Jazeera Palace Hotel',
-                  location: 'Airport Rd, Mogadishu, Somalia',
-                  rating: 4.5,
-                  price: 150,
-                ),
-                SizedBox(height: 20),
-                HotelCard(
-                  imageUrl: 'images/slider2.jpeg',
-                  name: 'Decale Hotel',
-                  location: 'Wadada Jazeera, Mogadishu, Somalia',
-                  rating: 4.0,
-                  price: 200,
-                ),
-              ],
+              itemCount: filteredHotels.length,
+              itemBuilder: (context, index) {
+                final hotel = filteredHotels[index];
+                return Column(
+                  children: [
+                    HotelCard(
+                      imageUrl: hotel['imageUrl'],
+                      name: hotel['name'],
+                      location: hotel['location'],
+                      rating: hotel['rating'],
+                      price: hotel['price'],
+                    ),
+                    const SizedBox(height: 20),
+                  ],
+                );
+              },
             ),
           ),
         ],

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:hotel_booking_app/components/main_screen.dart';
+// import 'package:hotel_booking_app/components/home_tab.dart';
 // import 'package:hotel_booking_app/components/create_user.dart';
-import 'components/Onboarding.dart';
+// import 'components/Onboarding.dart';
 // import 'components/Onboarding.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
@@ -23,8 +25,8 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
         fontFamily: 'Playfair Display',
       ),
-      home: const OnboardingScreen(),
-      // home: const CreateUser(),
+      // home: const OnboardingScreen(),
+      home: MainScreen(),
     );
   }
 }

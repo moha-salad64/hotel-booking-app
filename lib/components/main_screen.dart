@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:hotel_booking_app/components/booking_details.dart';
 import 'booking_history.dart';
-import 'booking_tab.dart';
 import 'home_tab.dart';
 import 'profile_user.dart';
 class MainScreen extends StatefulWidget {
