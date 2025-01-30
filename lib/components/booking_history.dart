@@ -140,7 +140,13 @@ class BookingCard extends StatelessWidget {
                         borderRadius: BorderRadius.circular(10),
                       ),
                     ),
-                    child: const Text('Cancel'),
+                    child: const Text(
+                      'Cancel',
+                      style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white),
+                    ),
                   ),
                   const SizedBox(width: 10),
                   ElevatedButton(
@@ -153,7 +159,13 @@ class BookingCard extends StatelessWidget {
                         borderRadius: BorderRadius.circular(10),
                       ),
                     ),
-                    child: const Text('Edit'),
+                    child: const Text(
+                      'Edit',
+                      style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white),
+                    ),
                   ),
                 ],
               ),
@@ -163,4 +175,4 @@ class BookingCard extends StatelessWidget {
       ),
     );
   }
-} 
+}

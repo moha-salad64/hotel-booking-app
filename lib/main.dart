@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hotel_booking_app/components/create_user.dart';
 import 'package:hotel_booking_app/components/main_screen.dart';
 // import 'package:hotel_booking_app/components/home_tab.dart';
 // import 'package:hotel_booking_app/components/create_user.dart';
@@ -27,6 +28,7 @@ class MyApp extends StatelessWidget {
       ),
       // home: const OnboardingScreen(),
       home: MainScreen(),
+      // home: CreateUser(),
     );
   }
 }

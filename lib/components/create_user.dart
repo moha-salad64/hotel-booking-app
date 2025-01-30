@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:hotel_booking_app/components/login.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 
@@ -19,7 +20,6 @@ class _CreateUserState extends State<CreateUser> {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   File? _image;
-
   final _formKey = GlobalKey<FormState>();
   bool isLoading = false;
 
@@ -32,10 +32,9 @@ class _CreateUserState extends State<CreateUser> {
     }
   }
 
-  Future<String?> _uploadImage(File image) async {
+  Future<String?> _uploadImage(File image, String uid) async {
     try {
-      String fileName = DateTime.now().millisecondsSinceEpoch.toString();
-      Reference ref = FirebaseStorage.instance.ref().child('user_images/$fileName.jpg');
+      Reference ref = FirebaseStorage.instance.ref().child('user_images/$uid.jpg');
       UploadTask uploadTask = ref.putFile(image);
       TaskSnapshot snapshot = await uploadTask;
       return await snapshot.ref.getDownloadURL();
@@ -68,20 +67,26 @@ class _CreateUserState extends State<CreateUser> {
         return;
       }
 
+      // **Step 1**: User Registration
       UserCredential userCredential = await FirebaseAuth.instance.createUserWithEmailAndPassword(
         email: emailController.text.trim(),
         password: passwordController.text.trim(),
       );
 
       String? imageUrl;
+
+      // **Step 2**: Upload Image before saving to Firestore
       if (_image != null) {
-        imageUrl = await _uploadImage(_image!);
+        imageUrl = await _uploadImage(_image!, userCredential.user!.uid);
+      } else {
+        imageUrl = "https://via.placeholder.com/150"; 
       }
 
+      // **Step 3**: Save User Data to Firestore
       await FirebaseFirestore.instance.collection('users').doc(userCredential.user!.uid).set({
         'name': nameController.text.trim(),
         'email': emailController.text.trim(),
-        'imageUrl': imageUrl ?? '',
+        'imageUrl': imageUrl,
         'uid': userCredential.user!.uid,
         'createdAt': FieldValue.serverTimestamp(),
       });
@@ -180,14 +185,38 @@ class _CreateUserState extends State<CreateUser> {
                     onPressed: isLoading ? null : createUser,
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.blue,
-                      padding: const EdgeInsets.symmetric(vertical: 16),
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                      padding: const EdgeInsets.symmetric(vertical: 10),
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
                     ),
                     child: isLoading
                         ? const CircularProgressIndicator(color: Colors.white)
-                        : const Text('Create Account', style: TextStyle(fontSize: 16)),
+                        : const Text('Create Account', style: TextStyle(fontSize: 25 , fontWeight: FontWeight.bold , color: Colors.white)),
                   ),
                 ),
+                 Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Text(
+                    "Don have any account? ",
+                    style: TextStyle(fontSize: 16),
+                  ),
+                  TextButton(
+                    onPressed: () {
+                       Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(builder: (context) => const Loginpage()),
+                      );
+                    },
+                    child: const Text(
+                      'Create account',
+                      style: TextStyle(
+                        color: Colors.blue,
+                        fontSize: 16,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
               ],
             ),
           ),

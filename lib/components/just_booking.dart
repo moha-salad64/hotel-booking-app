@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:hotel_booking_app/components/booking_history.dart';
 
@@ -11,20 +12,53 @@ class BookingScreen extends StatefulWidget {
 class _BookingScreenState extends State<BookingScreen> {
   DateTime? checkInDate;
   DateTime? checkOutDate;
-  String selectedRoomType = 'Single';
+  String selectedRoomType = "";
+
+  // Firestore instance
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+
+  Future<void> _saveBooking() async {
+    if (checkInDate == null || checkOutDate == null) {
+      // Show a message if dates are not selected
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Please select both check-in and check-out dates.')),
+      );
+      return;
+    }
+
+    try {
+      // Save booking details to Firestore
+      await _firestore.collection('bookings').add({
+        'check_in': checkInDate,
+        'check_out': checkOutDate,
+        'room_type': selectedRoomType,
+        'created_at': Timestamp.now(), // Record the time of the booking
+      });
+
+      // Show confirmation message
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Booking saved successfully!')),
+      );
+
+      // Navigate to booking history page
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => const HistoryTab()),
+      );
+    } catch (e) {
+      // Handle errors
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Error saving booking: $e')),
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: Colors.black),
-          onPressed: () => Navigator.pop(context),
-        ),
         title: const Text(
-          'Booking Here',
+          'Just Booking Here',
           style: TextStyle(
             color: Colors.black,
             fontSize: 24,
@@ -96,7 +130,6 @@ class _BookingScreenState extends State<BookingScreen> {
                   ),
                 ),
               ),
-
               const SizedBox(height: 20),
 
               // Check-out Date
@@ -140,7 +173,6 @@ class _BookingScreenState extends State<BookingScreen> {
                   ),
                 ),
               ),
-
               const SizedBox(height: 30),
 
               // Room Type
@@ -173,31 +205,24 @@ class _BookingScreenState extends State<BookingScreen> {
                 ],
               ),
 
-              const Spacer(),
-
               // Save Button
               SizedBox(
                 width: double.infinity,
                 child: ElevatedButton(
-                  onPressed: () {
-                    // Add booking logic here
-                    // Navigator.pop(context);
-                    Navigator.pushReplacement(
-                      context, MaterialPageRoute(builder: (context) => HistoryTab())
-                      );
-                  },
+                  onPressed: _saveBooking,
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.grey[800],
-                    padding: const EdgeInsets.symmetric(vertical: 15),
+                    padding: const EdgeInsets.symmetric(vertical: 10),
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
+                      borderRadius: BorderRadius.circular(15),
                     ),
                   ),
                   child: const Text(
                     'Save',
                     style: TextStyle(
-                      fontSize: 18,
+                      fontSize: 30,
                       fontWeight: FontWeight.bold,
+                      color: Colors.white,
                     ),
                   ),
                 ),
@@ -208,4 +233,4 @@ class _BookingScreenState extends State<BookingScreen> {
       ),
     );
   }
-} 
+}
