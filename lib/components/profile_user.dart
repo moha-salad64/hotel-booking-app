@@ -52,6 +52,8 @@ class _ProfileUserState extends State<ProfileUser> {
 
   @override
   Widget build(BuildContext context) {
+    final user = FirebaseAuth.instance.currentUser;
+
     return Scaffold(
       body: Padding(
         padding: const EdgeInsets.only(top: 50),
@@ -106,21 +108,9 @@ class _ProfileUserState extends State<ProfileUser> {
                   );
                 },
               ),
-              MenuButton(
-                icon: Icons.settings,
-                title: 'Settings',
-                onTap: () {},
-              ),
-              MenuButton(
-                icon: Icons.help_outline,
-                title: 'Help',
-                onTap: () {},
-              ),
-              MenuButton(
-                icon: Icons.logout,
-                title: 'Logout',
-                onTap: _logout,
-              ),
+              MenuButton( icon: Icons.settings, title: 'Settings', onTap: () {}),
+              MenuButton(icon: Icons.help_outline,title: 'Help',onTap: () {}),
+              MenuButton(icon: Icons.logout, title: 'Logout', onTap: _logout),
             ],
           ),
         ),

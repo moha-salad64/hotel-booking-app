@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 // import 'package:hotel_booking_app/components/main_screen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'create_user.dart';
 
 class OnboardingScreen extends StatefulWidget {
@@ -128,8 +129,10 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                   SizedBox(
                     width: double.infinity,
                     child: ElevatedButton(
-                      onPressed: () {
+                      onPressed: () async {
                         if (_currentPage == _contents.length - 1) {
+                          SharedPreferences prefs = await SharedPreferences.getInstance();
+                          await prefs.setBool('isOnboarded', true);
                           Navigator.pushReplacement(
                             context,
                             MaterialPageRoute(
