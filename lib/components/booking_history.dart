@@ -1,5 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'just_booking.dart';
 
 class HistoryTab extends StatelessWidget {
   const HistoryTab({super.key});
@@ -33,15 +35,13 @@ class HistoryTab extends StatelessWidget {
               ),
               Expanded(
                 child: StreamBuilder<QuerySnapshot>(
-                  stream: FirebaseFirestore.instance
-                      .collection('bookings') // Your Firestore collection name
-                      .snapshots(),
+                  stream: FirebaseFirestore.instance.collection('bookings').snapshots(),
                   builder: (context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
-                      return Center(child: CircularProgressIndicator());
+                      return const Center(child: CircularProgressIndicator());
                     }
                     if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
-                      return Center(child: Text("No bookings found"));
+                      return const Center(child: Text("No bookings found"));
                     }
 
                     final bookings = snapshot.data!.docs;
@@ -54,11 +54,13 @@ class HistoryTab extends StatelessWidget {
                         final checkIn = booking['check_in'].toDate();
                         final checkOut = booking['check_out'].toDate();
                         final roomType = booking['room_type'];
+                        final bookingId = booking.id;
 
                         return BookingCard(
+                          bookingId: bookingId,
                           roomType: roomType,
-                          checkIn: '${checkIn.day}/${checkIn.month}/${checkIn.year}',
-                          checkOut: '${checkOut.day}/${checkOut.month}/${checkOut.year}',
+                          checkIn: checkIn,
+                          checkOut: checkOut,
                         );
                       },
                     );
@@ -74,16 +76,66 @@ class HistoryTab extends StatelessWidget {
 }
 
 class BookingCard extends StatelessWidget {
+  final String bookingId;
   final String roomType;
-  final String checkIn;
-  final String checkOut;
+  final DateTime checkIn;
+  final DateTime checkOut;
 
   const BookingCard({
     super.key,
+    required this.bookingId,
     required this.roomType,
     required this.checkIn,
     required this.checkOut,
   });
+
+  void _editBooking(BuildContext context) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => BookingScreen(
+          bookingId: FirebaseAuth.instance.currentUser?.uid ?? '',
+          roomType: roomType,
+          checkIn: checkIn,
+          checkOut: checkOut,
+        ),
+      ),
+    );
+  }
+
+  void _deleteBooking(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: const Text("Delete Booking"),
+          content: const Text("Are you sure you want to delete this booking?"),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(),
+              child: const Text("Cancel"),
+            ),
+            TextButton(
+              onPressed: () async {
+                try {
+                  await FirebaseFirestore.instance.collection('bookings').doc(bookingId).delete();
+                  Navigator.of(context).pop();
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(content: Text("Booking deleted successfully"), backgroundColor: Colors.green),
+                  );
+                } catch (e) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(content: Text("Error deleting booking: $e"), backgroundColor: Colors.red),
+                  );
+                }
+              },
+              child: const Text("Delete", style: TextStyle(color: Colors.red)),
+            ),
+          ],
+        );
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -104,65 +156,24 @@ class BookingCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          Text('Room Type: $roomType', style: const TextStyle(fontSize: 16)),
           const SizedBox(height: 10),
-          Text(
-            'Room Type: $roomType',
-            style: const TextStyle(fontSize: 16),
-          ),
-          const SizedBox(height: 20), 
-          Text(
-            'Check-in: $checkIn',
-            style: const TextStyle(fontSize: 16),
-          ),
+          Text('Check-in: $checkIn', style: const TextStyle(fontSize: 16)),
           const SizedBox(height: 10),
-          Text(
-            'Check-out: $checkOut',
-            style: const TextStyle(fontSize: 16),
-          ),
-          const SizedBox(height: 20), 
+          Text('Check-out: $checkOut', style: const TextStyle(fontSize: 16)),
+          const SizedBox(height: 20),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Row(
-                children: [
-                  ElevatedButton(
-                    onPressed: () {
-                      // Add cancel booking logic
-                    },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.grey[800],
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                    ),
-                    child: const Text(
-                      'Cancel',
-                      style: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white),
-                    ),
-                  ),
-                  const SizedBox(width: 10), // Add space between buttons
-                  ElevatedButton(
-                    onPressed: () {
-                      // Add edit booking logic
-                    },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.grey[800],
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                    ),
-                    child: const Text(
-                      'Edit',
-                      style: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white),
-                    ),
-                  ),
-                ],
+              ElevatedButton(
+                onPressed: () => _deleteBooking(context),
+                style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
+                child: const Text('Cancel', style: TextStyle(color: Colors.white)),
+              ),
+              ElevatedButton(
+                onPressed: () => _editBooking(context),
+                style: ElevatedButton.styleFrom(backgroundColor: Colors.grey[800]),
+                child: const Text('Edit', style: TextStyle(color: Colors.white)),
               ),
             ],
           ),

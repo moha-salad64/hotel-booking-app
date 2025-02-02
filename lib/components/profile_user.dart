@@ -25,10 +25,8 @@ class _ProfileUserState extends State<ProfileUser> {
   Future<void> _getUserData() async {
     final user = FirebaseAuth.instance.currentUser;
     if (user != null) {
-      DocumentSnapshot userData = await FirebaseFirestore.instance
-          .collection('users')
-          .doc(user.uid)
-          .get();
+      DocumentSnapshot userData =
+          await FirebaseFirestore.instance.collection('users').doc(user.uid).get();
 
       if (userData.exists) {
         setState(() {
@@ -42,6 +40,30 @@ class _ProfileUserState extends State<ProfileUser> {
     }
   }
 
+  void _showLogoutDialog() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text("Confirm Logout"),
+          content: const Text("Are you sure you want to log out?"),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context); 
+              },
+              child: const Text("Cancel"),
+            ),
+            TextButton(
+              onPressed: _logout,
+              child: const Text("Logout", style: TextStyle(color: Colors.red)),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   void _logout() async {
     await FirebaseAuth.instance.signOut();
     Navigator.pushReplacement(
@@ -52,8 +74,6 @@ class _ProfileUserState extends State<ProfileUser> {
 
   @override
   Widget build(BuildContext context) {
-    final user = FirebaseAuth.instance.currentUser;
-
     return Scaffold(
       body: Padding(
         padding: const EdgeInsets.only(top: 50),
@@ -108,9 +128,9 @@ class _ProfileUserState extends State<ProfileUser> {
                   );
                 },
               ),
-              MenuButton( icon: Icons.settings, title: 'Settings', onTap: () {}),
-              MenuButton(icon: Icons.help_outline,title: 'Help',onTap: () {}),
-              MenuButton(icon: Icons.logout, title: 'Logout', onTap: _logout),
+              MenuButton(icon: Icons.settings, title: 'Settings', onTap: () {}),
+              MenuButton(icon: Icons.help_outline, title: 'Help', onTap: () {}),
+              MenuButton(icon: Icons.logout, title: 'Logout', onTap: _showLogoutDialog),
             ],
           ),
         ),

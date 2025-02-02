@@ -88,15 +88,15 @@ class _LoginpageState extends State<Loginpage> {
             children: [
               Row(
                 children: [
-                  IconButton(
-                    icon: const Icon(Icons.arrow_back, color: Colors.black),
-                    onPressed: () {
-                      Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(builder: (context) => MainScreen()),
-                      );
-                    },
-                  ),
+                  // IconButton(
+                  //   icon: const Icon(Icons.arrow_back, color: Colors.black),
+                  //   onPressed: () {
+                  //     Navigator.pushReplacement(
+                  //       context,
+                  //       MaterialPageRoute(builder: (context) => MainScreen()),
+                  //     );
+                  //   },
+                  // ),
                   SizedBox(width: 100),
                   const Text(
                     'Login',

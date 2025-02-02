@@ -26,7 +26,7 @@ class _EditProfileState extends State<EditProfile> {
   File? _imageFile;
   late TextEditingController _nameController;
   late TextEditingController _emailController;
-  bool isLoading = false; // Loading indicator
+  bool isLoading = false; 
 
   @override
   void initState() {
