@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hotel_booking_app/components/login.dart';
-import 'package:hotel_booking_app/components/payment_page.dart';
+
 import 'components/Onboarding.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 // import 'components/create_user.dart';
