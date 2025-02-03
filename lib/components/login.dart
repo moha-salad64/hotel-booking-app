@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:hotel_booking_app/components/create_user.dart';
 import 'package:hotel_booking_app/components/main_screen.dart';
+import 'forget_password.dart';
 
 class Loginpage extends StatefulWidget {
   const Loginpage({super.key});
@@ -190,15 +191,20 @@ class _LoginpageState extends State<Loginpage> {
                 ),
               ),
               const SizedBox(height: 20),
-
-              // Sign Up Link
+              TextButton(
+                onPressed: () {
+                  Navigator.pushReplacement(
+                    context ,  
+                    MaterialPageRoute(builder: (context) =>  ForgetPassword())
+                    );
+                },
+                child: const Text('Forgot Password?', style: TextStyle(color: Colors.blue, fontSize: 20 )),
+              ),
+              // create account  Link
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const Text(
-                    "Don't have an account? ",
-                    style: TextStyle(fontSize: 16),
-                  ),
+                  const Text("Don't have an account? ", style: TextStyle(fontSize: 16)),
                   TextButton(
                     onPressed: () {
                       Navigator.pushReplacement(

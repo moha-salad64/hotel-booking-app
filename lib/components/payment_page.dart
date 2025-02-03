@@ -22,20 +22,16 @@ class _PaymentPageState extends State<PaymentPage> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // Profile Image
-                CircleAvatar(
-                  radius: 25,
-                  backgroundImage: AssetImage('assets/profile.jpg'),
-                ),
                 const SizedBox(height: 24),
-                
                 // Add Payment Title
-                const Text(
-                  'Add Payment',
-                  style: TextStyle(
-                    fontSize: 32,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.blue,
+                Center(
+                  child: const Text(
+                    'Add Payment',
+                    style: TextStyle(
+                      fontSize: 32,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.blue,
+                    ),
                   ),
                 ),
                 const SizedBox(height: 24),
@@ -44,9 +40,7 @@ class _PaymentPageState extends State<PaymentPage> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    _buildPaymentMethodCard('assets/visa.png'),
-                    _buildPaymentMethodCard('assets/mastercard.png'),
-                    _buildPaymentMethodCard('assets/jazzcash.png'),
+                    _buildPaymentMethodCard('images/mscard.png'),
                   ],
                 ),
                 const SizedBox(height: 24),
@@ -194,7 +188,6 @@ class _PaymentPageState extends State<PaymentPage> {
                   child: ElevatedButton(
                     onPressed: () {
                       if (_formKey.currentState!.validate()) {
-                        // Handle form submission
                       }
                     },
                     style: ElevatedButton.styleFrom(
@@ -206,8 +199,9 @@ class _PaymentPageState extends State<PaymentPage> {
                     child: const Text(
                       'Add',
                       style: TextStyle(
-                        fontSize: 18,
+                        fontSize: 25,
                         fontWeight: FontWeight.bold,
+                        color: Colors.white,
                       ),
                     ),
                   ),
@@ -236,7 +230,8 @@ class _PaymentPageState extends State<PaymentPage> {
       ),
       child: Image.asset(
         assetPath,
-        height: 40,
+        height: 50,
+        width: 150,
       ),
     );
   }

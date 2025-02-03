@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:hotel_booking_app/components/login.dart';
+import 'package:hotel_booking_app/components/payment_page.dart';
 import 'components/Onboarding.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 // import 'components/create_user.dart';
@@ -27,11 +29,10 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
         fontFamily: 'Playfair Display',
       ),
-      // home: const OnboardingScreen(),
-      // home: MainScreen(),
-      // home: CreateUser(),
-      home:  isOnboarded ? MainScreen() : OnboardingScreen(),
-    );
+      
+      home: Loginpage(),
+      // home:  isOnboarded ? MainScreen() : OnboardingScreen(),    
+      );
   }
 }
 

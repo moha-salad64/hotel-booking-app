@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart'; 
 import 'package:flutter/material.dart';
-import 'booking_history.dart';
+// import 'main_screen.dart';
+// import 'booking_history.dart';
 import 'payment_page.dart';
 
   
@@ -22,10 +23,9 @@ class _BookingScreenState extends State<BookingScreen> {
 
   Future<void> _saveBooking() async {
     if (checkInDate == null || checkOutDate == null) {
-      // Show a message if dates are not selected
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Please select both check-in and check-out dates.' , 
-        style: TextStyle(fontSize: 25 , fontWeight: FontWeight.bold))),
+        style: TextStyle(fontSize: 15 , fontWeight: FontWeight.bold))),
       );
       return;
     }
@@ -61,11 +61,9 @@ class _BookingScreenState extends State<BookingScreen> {
           actions: [
             TextButton(
               onPressed: () {
-                Navigator.of(context).pop(); 
                 Navigator.pushReplacement(
                   context,
-                  MaterialPageRoute(builder: (context) => const HistoryTab())
-                  // MaterialPageRoute(builder: (context) => const PaymentPage()),
+                  MaterialPageRoute(builder: (context) => const PaymentPage()),
                 );
               },
               child: const Text("OK" , style: TextStyle(fontSize: 30 , fontWeight: FontWeight.bold)),
@@ -92,7 +90,9 @@ class _BookingScreenState extends State<BookingScreen> {
         actions: [
           IconButton(
             icon: const Icon(Icons.close, color: Colors.black),
-            onPressed: () => Navigator.pop(context),
+            onPressed: () {
+              Navigator.pop(context);
+            } 
           ),
         ],
       ),
@@ -231,7 +231,9 @@ class _BookingScreenState extends State<BookingScreen> {
               SizedBox(
                 width: double.infinity,
                 child: ElevatedButton(
-                  onPressed: _saveBooking,
+                  onPressed: () {
+                    _saveBooking();
+                  }, 
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.grey[800],
                     padding: const EdgeInsets.symmetric(vertical: 10),
