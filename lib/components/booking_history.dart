@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'just_booking.dart';
+import 'package:intl/intl.dart';
+import 'edit_booking.dart';
 
 class HistoryTab extends StatelessWidget {
   const HistoryTab({super.key});
@@ -45,7 +45,6 @@ class HistoryTab extends StatelessWidget {
                     }
 
                     final bookings = snapshot.data!.docs;
-
                     return ListView.builder(
                       padding: const EdgeInsets.all(20),
                       itemCount: bookings.length,
@@ -93,8 +92,8 @@ class BookingCard extends StatelessWidget {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => BookingScreen(
-          bookingId: FirebaseAuth.instance.currentUser?.uid ?? '',
+        builder: (context) => EditBooking(
+          bookingId: bookingId,
           roomType: roomType,
           checkIn: checkIn,
           checkOut: checkOut,
@@ -103,38 +102,17 @@ class BookingCard extends StatelessWidget {
     );
   }
 
-  void _deleteBooking(BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (context) {
-        return AlertDialog(
-          title: const Text("Delete Booking"),
-          content: const Text("Are you sure you want to delete this booking?"),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.of(context).pop(),
-              child: const Text("Cancel"),
-            ),
-            TextButton(
-              onPressed: () async {
-                try {
-                  await FirebaseFirestore.instance.collection('bookings').doc(bookingId).delete();
-                  Navigator.of(context).pop();
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(content: Text("Booking deleted successfully"), backgroundColor: Colors.green),
-                  );
-                } catch (e) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(content: Text("Error deleting booking: $e"), backgroundColor: Colors.red),
-                  );
-                }
-              },
-              child: const Text("Delete", style: TextStyle(color: Colors.red)),
-            ),
-          ],
-        );
-      },
-    );
+  void _deleteBooking(BuildContext context) async {
+    try {
+      await FirebaseFirestore.instance.collection('bookings').doc(bookingId).delete();
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text("Booking deleted successfully"), backgroundColor: Colors.green),
+      );
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("Error deleting booking: $e"), backgroundColor: Colors.red),
+      );
+    }
   }
 
   @override
@@ -147,7 +125,7 @@ class BookingCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(20),
         boxShadow: [
           BoxShadow(
-            color: Colors.grey.withOpacity(0.1),
+            color: Colors.grey.withOpacity(0.2),
             spreadRadius: 1,
             blurRadius: 5,
           ),
@@ -158,22 +136,24 @@ class BookingCard extends StatelessWidget {
         children: [
           Text('Room Type: $roomType', style: const TextStyle(fontSize: 16)),
           const SizedBox(height: 10),
-          Text('Check-in: $checkIn', style: const TextStyle(fontSize: 16)),
+          Text('Check-in: ${DateFormat('dd/MM/yyyy').format(checkIn)}', style: const TextStyle(fontSize: 16)),
           const SizedBox(height: 10),
-          Text('Check-out: $checkOut', style: const TextStyle(fontSize: 16)),
+          Text('Check-out: ${DateFormat('dd/MM/yyyy').format(checkOut)}', style: const TextStyle(fontSize: 16)),
           const SizedBox(height: 20),
+
           Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            mainAxisAlignment: MainAxisAlignment.start,
             children: [
               ElevatedButton(
                 onPressed: () => _deleteBooking(context),
                 style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
-                child: const Text('Cancel', style: TextStyle(color: Colors.white)),
+                child: const Text('Cancel', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white)),
               ),
+              const SizedBox(width: 20),
               ElevatedButton(
                 onPressed: () => _editBooking(context),
                 style: ElevatedButton.styleFrom(backgroundColor: Colors.grey[800]),
-                child: const Text('Edit', style: TextStyle(color: Colors.white)),
+                child: const Text('Edit', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white)),
               ),
             ],
           ),
