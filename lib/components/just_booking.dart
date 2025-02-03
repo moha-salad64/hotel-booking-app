@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart'; 
 import 'package:flutter/material.dart';
-// import 'package:hotel_booking_app/components/booking_history.dart';
+import 'booking_history.dart';
 import 'payment_page.dart';
 
   
@@ -25,7 +25,7 @@ class _BookingScreenState extends State<BookingScreen> {
       // Show a message if dates are not selected
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Please select both check-in and check-out dates.' , 
-        style: TextStyle(fontSize: 50 , fontWeight: FontWeight.bold))),
+        style: TextStyle(fontSize: 25 , fontWeight: FontWeight.bold))),
       );
       return;
     }
@@ -36,7 +36,7 @@ class _BookingScreenState extends State<BookingScreen> {
         'check_in': checkInDate,
         'check_out': checkOutDate,
         'room_type': selectedRoomType,
-        'created_at': Timestamp.now(), // Record the time of the booking
+        'created_at': Timestamp.now(), 
       });
 
       // Show success dialog
@@ -64,7 +64,8 @@ class _BookingScreenState extends State<BookingScreen> {
                 Navigator.of(context).pop(); 
                 Navigator.pushReplacement(
                   context,
-                  MaterialPageRoute(builder: (context) => const PaymentPage()),
+                  MaterialPageRoute(builder: (context) => const HistoryTab())
+                  // MaterialPageRoute(builder: (context) => const PaymentPage()),
                 );
               },
               child: const Text("OK" , style: TextStyle(fontSize: 30 , fontWeight: FontWeight.bold)),
