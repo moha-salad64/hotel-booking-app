@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:hotel_booking_app/components/login.dart';
-
+import 'components/main_screen.dart';
 import 'components/Onboarding.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-// import 'components/create_user.dart';
-import 'package:hotel_booking_app/components/main_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
 
@@ -29,9 +26,8 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
         fontFamily: 'Playfair Display',
       ),
-      
-      home: Loginpage(),
-      // home:  isOnboarded ? MainScreen() : OnboardingScreen(),    
+    
+      home:  isOnboarded ? MainScreen() : OnboardingScreen(),    
       );
   }
 }

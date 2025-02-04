@@ -1,7 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart'; 
 import 'package:flutter/material.dart';
-// import 'main_screen.dart';
-// import 'booking_history.dart';
 import 'payment_page.dart';
 
   
@@ -21,7 +19,7 @@ class _BookingScreenState extends State<BookingScreen> {
   // Firestore instance
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
-  Future<void> _saveBooking() async {
+  void _saveBooking() async {
     if (checkInDate == null || checkOutDate == null) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Please select both check-in and check-out dates.' , 
@@ -43,9 +41,7 @@ class _BookingScreenState extends State<BookingScreen> {
       _showSuccessDialog();
 
     } catch (e) {
-      // Handle errors
       ScaffoldMessenger.of(context).showSnackBar(
-         
         SnackBar(content: Text('Error saving booking: $e')),
       );
     }
@@ -61,10 +57,10 @@ class _BookingScreenState extends State<BookingScreen> {
           actions: [
             TextButton(
               onPressed: () {
-                Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(builder: (context) => const PaymentPage()),
-                );
+                // Navigator.of(context).pop();
+                Navigator.pushReplacement(context, 
+                MaterialPageRoute(builder: (context) => PaymentPage())
+                );                
               },
               child: const Text("OK" , style: TextStyle(fontSize: 30 , fontWeight: FontWeight.bold)),
             ),
