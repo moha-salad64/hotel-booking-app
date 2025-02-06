@@ -103,16 +103,39 @@ class BookingCard extends StatelessWidget {
   }
 
   void _deleteBooking(BuildContext context) async {
-    try {
-      await FirebaseFirestore.instance.collection('bookings').doc(bookingId).delete();
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text("Booking deleted successfully"), backgroundColor: Colors.green),
-      );
-    } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text("Error deleting booking: $e"), backgroundColor: Colors.red),
-      );
-    }
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text("Delete Booking"),
+          content: const Text("Are you sure you want to delete this booking?"),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop(); 
+              },
+              child: const Text("Cancel"),
+            ),
+            TextButton(
+              onPressed: () async {
+                try {
+                  await FirebaseFirestore.instance.collection('bookings').doc(bookingId).delete();
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(content: Text("Booking deleted successfully"), backgroundColor: Colors.green),
+                  );
+                } catch (e) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(content: Text("Error deleting booking: $e"), backgroundColor: Colors.red),
+                  );
+                }
+                Navigator.of(context).pop(); 
+              },
+              child: const Text("Delete"),
+            ),
+          ],
+        );
+      },
+    );
   }
 
   @override
@@ -121,7 +144,7 @@ class BookingCard extends StatelessWidget {
       padding: const EdgeInsets.all(20),
       margin: const EdgeInsets.only(bottom: 15),
       decoration: BoxDecoration(
-        color: Colors.amber.shade300,
+        color: Colors.blue.shade100,
         borderRadius: BorderRadius.circular(20),
         boxShadow: [
           BoxShadow(
@@ -147,13 +170,13 @@ class BookingCard extends StatelessWidget {
               ElevatedButton(
                 onPressed: () => _deleteBooking(context),
                 style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
-                child: const Text('Cancel', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white)),
+                child: const Text('Delete', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white)),
               ),
               const SizedBox(width: 20),
               ElevatedButton(
                 onPressed: () => _editBooking(context),
                 style: ElevatedButton.styleFrom(backgroundColor: Colors.grey[800]),
-                child: const Text('Edit', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white)),
+                child: const Text('Update', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white)),
               ),
             ],
           ),

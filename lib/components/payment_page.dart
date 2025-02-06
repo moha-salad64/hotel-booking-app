@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:hotel_booking_app/components/booking_history.dart';
 
 class PaymentPage extends StatefulWidget {
   const PaymentPage({super.key});
@@ -25,26 +26,18 @@ class _PaymentPageState extends State<PaymentPage> {
                 const SizedBox(height: 24),
                 // Add Payment Title
                 Center(
-                  child: const Text(
-                    'Add Payment',
-                    style: TextStyle(
-                      fontSize: 32,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.blue,
-                    ),
+                  child: const Text('Add Payment',
+                    style: TextStyle( fontSize: 32, fontWeight: FontWeight.bold, color: Colors.blue,),
                   ),
                 ),
                 const SizedBox(height: 24),
-
                 // Payment Methods
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    _buildPaymentMethodCard('images/mscard.png'),
+                    _buildPaymentMethodCard('images/mcard.png'),
                   ],
                 ),
-                const SizedBox(height: 24),
-
                 // Scan Card Button
                 TextButton.icon(
                   onPressed: () {},
@@ -187,8 +180,11 @@ class _PaymentPageState extends State<PaymentPage> {
                   height: 50,
                   child: ElevatedButton(
                     onPressed: () {
-                      if (_formKey.currentState!.validate()) {
-                      }
+                      // if (_formKey.currentState!.validate()) {
+                      // }
+                      Navigator.pushReplacement(context, 
+                      MaterialPageRoute(builder: (context) => HistoryTab())
+                      );
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.blue,
@@ -198,11 +194,7 @@ class _PaymentPageState extends State<PaymentPage> {
                     ),
                     child: const Text(
                       'Add',
-                      style: TextStyle(
-                        fontSize: 25,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white,
-                      ),
+                      style: TextStyle(fontSize: 25,fontWeight: FontWeight.bold,color: Colors.white),
                     ),
                   ),
                 ),
@@ -216,7 +208,7 @@ class _PaymentPageState extends State<PaymentPage> {
 
   Widget _buildPaymentMethodCard(String assetPath) {
     return Container(
-      padding: const EdgeInsets.all(12),
+      padding: const EdgeInsets.all(10),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(10),
@@ -230,8 +222,8 @@ class _PaymentPageState extends State<PaymentPage> {
       ),
       child: Image.asset(
         assetPath,
-        height: 50,
-        width: 150,
+        height: 90,
+        width: 180,
       ),
     );
   }

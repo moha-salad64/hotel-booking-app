@@ -18,32 +18,32 @@ class _HomeTabState extends State<HomeTab> {
       'price': 150,
     },
     {
-      'imageUrl': 'images/slider2.jpeg',
+      'imageUrl': 'images/9.jpeg',
       'name': 'Decale Hotel',
       'location': 'Wadada Jazeera, Mogadishu, Somalia',
-      'rating': 4.0,
+      'rating': 4.8,
       'price': 200,
     },
     {
-      'imageUrl': 'images/slider3.jpeg',
+      'imageUrl': 'images/13.jpeg',
       'name': 'Peace Hotel',
       'location': 'Mogadishu, Somalia',
-      'rating': 4.2,
-      'price': 180,
+      'rating': 4.3,
+      'price': 150,
     },
      {
-      'imageUrl': 'images/slider3.jpeg',
-      'name': 'Peace Hotel',
+      'imageUrl': 'images/18.jpg',
+      'name': 'Elite Hotel',
       'location': 'Mogadishu, Somalia',
-      'rating': 4.2,
-      'price': 180,
+      'rating': 4.6,
+      'price': 100,
     },
      {
-      'imageUrl': 'images/slider3.jpeg',
-      'name': 'Peace Hotel',
+      'imageUrl': 'images/17.jpeg',
+      'name': 'Afrik Hotel',
       'location': 'Mogadishu, Somalia',
-      'rating': 4.2,
-      'price': 180,
+      'rating': 4.0,
+      'price': 80,
     },
   ];
 
@@ -52,7 +52,7 @@ class _HomeTabState extends State<HomeTab> {
   @override
   void initState() {
     super.initState();
-    filteredHotels = hotels; // Marka hore dhammaan hotels-ka haka muuqdaan
+    filteredHotels = hotels; 
   }
 
   void _searchHotels(String query) {

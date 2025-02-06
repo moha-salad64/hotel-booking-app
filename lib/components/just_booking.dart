@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart'; 
 import 'package:flutter/material.dart';
-import 'payment_page.dart';
+// import 'payment_page.dart'
+import 'booking_history.dart';
 
   
 
@@ -19,7 +20,7 @@ class _BookingScreenState extends State<BookingScreen> {
   // Firestore instance
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
-  void _saveBooking() async {
+  void saveBooking() async {
     if (checkInDate == null || checkOutDate == null) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Please select both check-in and check-out dates.' , 
@@ -38,7 +39,7 @@ class _BookingScreenState extends State<BookingScreen> {
       });
 
       // Show success dialog
-      _showSuccessDialog();
+      showSuccessDialog();
 
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -47,7 +48,7 @@ class _BookingScreenState extends State<BookingScreen> {
     }
   }
 
-  void _showSuccessDialog() {
+  void showSuccessDialog() {
     showDialog(
       context: context,
       builder: (context) {
@@ -57,9 +58,9 @@ class _BookingScreenState extends State<BookingScreen> {
           actions: [
             TextButton(
               onPressed: () {
-                // Navigator.of(context).pop();
+                Navigator.of(context).pop();
                 Navigator.pushReplacement(context, 
-                MaterialPageRoute(builder: (context) => PaymentPage())
+                MaterialPageRoute(builder: (context) => HistoryTab())
                 );                
               },
               child: const Text("OK" , style: TextStyle(fontSize: 30 , fontWeight: FontWeight.bold)),
@@ -228,7 +229,7 @@ class _BookingScreenState extends State<BookingScreen> {
                 width: double.infinity,
                 child: ElevatedButton(
                   onPressed: () {
-                    _saveBooking();
+                    saveBooking();
                   }, 
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.grey[800],

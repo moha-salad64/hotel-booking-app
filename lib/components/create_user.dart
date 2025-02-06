@@ -208,7 +208,7 @@ class _CreateUserState extends State<CreateUser> {
                       );
                     },
                     child: const Text(
-                      'Create account',
+                      'Log in',
                       style: TextStyle(
                         color: Colors.blue,
                         fontSize: 16,

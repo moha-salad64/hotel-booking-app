@@ -10,10 +10,50 @@ class HotelDetailsScreen extends StatefulWidget {
 
 class _HotelDetailsScreenState extends State<HotelDetailsScreen> {
   final List<Map<String, dynamic>> hotels = [
-    {'imageUrl': "images/slider3.jpeg", 'name': 'Jazeera Palace', 'location': 'Mogadishu, Somalia', 'rating': 4.5, 'price': 120},
-    {'imageUrl': 'images/5.jpeg', 'name': 'Maka Al-Mukarama', 'location': 'Mogadishu, Somalia', 'rating': 4.8, 'price': 150},
-    {'imageUrl': 'images/4.jpeg', 'name': 'Peace Hotel', 'location': 'Mogadishu, Somalia', 'rating': 4.3, 'price': 100},
-    {'imageUrl': 'images/6.jpeg', 'name': 'Elite Hotel', 'location': 'Mogadishu, Somalia', 'rating': 4.6, 'price': 130},
+    {
+      'imageUrl': "images/slider3.jpeg", 
+      'name': 'Jazeera Palace', 
+      'location': 'Mogadishu, Somalia', 
+      'rating': 4.5, 
+      'price': 150,
+      'description':'Jazeera Palace Hotel is an excellent choice for travelers visiting Mogadishu, offering many helpful amenities designed to enhance your stay. The rooms offer a minibar and air conditioning, and getting online is possible, as free internet access is available',
+      },
+
+    {
+      'imageUrl': 'images/5.jpeg', 
+      'name': 'Decale Hotel', 
+      'location': 'Mogadishu, Somalia', 
+      'rating': 4.8, 
+      'price': 200,
+      'description':'Decale Hotel is an excellent choice for travelers visiting Mogadishu, offering many helpful amenities designed to enhance your stay. The rooms offer a minibar and air conditioning, and getting online is possible, as free internet access is available',
+
+      },
+    {
+      'imageUrl': 'images/4.jpeg', 
+      'name': 'Peace Hotel', 
+      'location': 'Mogadishu, Somalia', 
+      'rating': 4.3, 
+      'price': 150,
+      'description':'Peace Hotel is an excellent choice for travelers visiting Mogadishu, offering many helpful amenities designed to enhance your stay. The rooms offer a minibar and air conditioning, and getting online is possible, as free internet access is available',
+
+      },
+    {
+      'imageUrl': 'images/6.jpeg', 
+      'name': 'Elite Hotel', 
+      'location': 'Mogadishu, Somalia', 
+      'rating': 4.6, 
+      'price': 100,
+      'description':'Elite Hotel is an excellent choice for travelers visiting Mogadishu, offering many helpful amenities designed to enhance your stay. The rooms offer a minibar and air conditioning, and getting online is possible, as free internet access is available',
+    },
+
+    {
+      'imageUrl': 'images/17.jpeg', 
+      'name': 'Afrik Hotel', 
+      'location': 'Mogadishu, Somalia', 
+      'rating': 4.0, 
+      'price': 80,
+      'description':'Jazeera Palace Hotel is an excellent choice for travelers visiting Mogadishu, offering many helpful amenities designed to enhance your stay. The rooms offer a minibar and air conditioning, and getting online is possible, as free internet access is available',
+      },
   ];
 
   List<Map<String, dynamic>> filteredHotels = [];
@@ -156,7 +196,7 @@ class HotelCard extends StatelessWidget {
                     ),
                     Container(
                       child: Text(
-                      'Jazeera Palace Hotel is an excellent choice for travelers visiting Mogadishu, offering many helpful amenities designed to enhance your stay. The rooms offer a minibar and air conditioning, and getting online is possible, as free internet access is available',
+                        hotel['description'],
                       style: TextStyle(
                       fontSize: 18,
                       color: Colors.black87,

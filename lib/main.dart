@@ -27,7 +27,7 @@ class MyApp extends StatelessWidget {
         fontFamily: 'Playfair Display',
       ),
     
-      home:  isOnboarded ? MainScreen() : OnboardingScreen(),    
+      home:  isOnboarded ? MainScreen() : OnboardingScreen() ,    
       );
   }
 }

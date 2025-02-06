@@ -128,8 +128,8 @@ class _ProfileUserState extends State<ProfileUser> {
                   );
                 },
               ),
-              MenuButton(icon: Icons.settings, title: 'Settings', onTap: () {}),
-              MenuButton(icon: Icons.help_outline, title: 'Help', onTap: () {}),
+              // MenuButton(icon: Icons.settings, title: 'Settings', onTap: () {}),
+              // MenuButton(icon: Icons.help_outline, title: 'Help', onTap: () {}),
               MenuButton(icon: Icons.logout, title: 'Logout', onTap: _showLogoutDialog),
             ],
           ),
